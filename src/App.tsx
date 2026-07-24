@@ -102,7 +102,7 @@ function App() {
   useEffect(() => {
     if (!isPlayingMusic) return;
     
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
     
     const playLyric = (index: number) => {
       if (index >= lyrics.length) return;
