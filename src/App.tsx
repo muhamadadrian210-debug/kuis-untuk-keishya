@@ -551,9 +551,9 @@ function App() {
             <div className="text-center bg-black/60 p-8 rounded-3xl backdrop-blur-md border border-pink-500/30 z-20 relative shadow-[0_0_40px_rgba(236,72,153,0.2)]">
               <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">Take your time... 🥺</h1>
               <p className="text-pink-200 text-lg mb-4 leading-relaxed">
-                Oke Keishya, Iaan bakal sabar nungguin jawaban kamu sampai tanggal <b className="text-white bg-pink-500/20 px-2 py-1 rounded">{waitingDateStr}</b>.
+                Iaan ngerti kalau memulai sesuatu yang baru itu butuh keberanian. Iaan nggak akan ke mana-mana, nggak akan maksa, dan bakal sabar nungguin kamu sampai <b className="text-white bg-pink-500/20 px-2 py-1 rounded">{waitingDateStr}</b>.
               </p>
-              <p className="text-pink-300/80 text-sm mb-8">Jangan lupa kabarin Iaan ya nanti!</p>
+              <p className="text-pink-300/80 text-sm mb-8">Nggak usah takut kecewa, pelan-pelan aja ya. Jangan lupa kabarin Iaan nanti! ❤️</p>
               
               <HexagonButton onClick={() => {
                 const message = `Iaan, aku butuh waktu buat mikir dulu ya... Kasih aku waktu sampai tanggal ${waitingDateStr}. Nanti aku kasih jawaban pastinya.`;
