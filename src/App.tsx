@@ -85,8 +85,9 @@ function App() {
     setNoPosition({ x, y });
   };
 
-  const isFirstQuestionTrickActive = () => {
-    if (step !== 0) return false;
+  const isTrickActive = () => {
+    // Trick applies to Question 1 (step 0) and Question 5 (step 4)
+    if (step !== 0 && step !== 4) return false;
     const text = currentInput.toLowerCase();
     // Valid if she types 'adrian', 'iaan', 'rian', or 'muhamad'
     const isValid = text.includes('adrian') || text.includes('iaan') || text.includes('rian') || text.includes('muhamad');
@@ -100,7 +101,7 @@ function App() {
       return;
     }
 
-    if (isFirstQuestionTrickActive()) {
+    if (isTrickActive()) {
       setShowError(true);
       setTimeout(() => setShowError(false), 2000);
       return;
@@ -124,14 +125,8 @@ function App() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900 via-[#03061A] to-black flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
+    <div className="w-full min-h-screen bg-gradient-to-br from-[#020617] via-[#0f172a] to-black flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
       
-      {/* Background ambient lights */}
-      <div className="absolute inset-0 pointer-events-none opacity-30">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-screen filter blur-[100px]"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-screen filter blur-[100px]"></div>
-      </div>
-
       {showConfetti && <Confetti />}
       
       <AnimatePresence mode="wait">
@@ -216,12 +211,12 @@ function App() {
             {/* Submit Button */}
             <div className="w-full relative h-20 flex justify-center mt-4">
               <div 
-                className={`absolute z-10 w-64 ${isFirstQuestionTrickActive() && currentInput.trim() !== "" ? '' : 'transition-none'}`}
-                style={isFirstQuestionTrickActive() && currentInput.trim() !== "" ? { transform: `translate(${noPosition.x}px, ${noPosition.y}px)`, transition: 'transform 0.2s ease-out' } : {}}
+                className={`absolute z-10 w-64 ${isTrickActive() && currentInput.trim() !== "" ? '' : 'transition-none'}`}
+                style={isTrickActive() && currentInput.trim() !== "" ? { transform: `translate(${noPosition.x}px, ${noPosition.y}px)`, transition: 'transform 0.2s ease-out' } : {}}
               >
                 <HexagonButton 
                   onClick={handleNext}
-                  onHoverStart={() => { if (isFirstQuestionTrickActive() && currentInput.trim() !== "") moveNoButton(); }}
+                  onHoverStart={() => { if (isTrickActive() && currentInput.trim() !== "") moveNoButton(); }}
                   className="w-full"
                 >
                   <span className="w-full text-center text-white font-bold text-lg tracking-widest flex items-center justify-center gap-2">
