@@ -94,6 +94,12 @@ function App() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   
+  const [showTimeModal, setShowTimeModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  
+  const today = new Date().toISOString().split('T')[0];
+  const maxDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  
   // Essay state
   const [currentInput, setCurrentInput] = useState("");
   const [answers, setAnswers] = useState<string[]>([]);
@@ -161,9 +167,23 @@ function App() {
     answers.forEach((ans, i) => {
       text += `*Pertanyaan ${i+1}:* ${questions[i].q}\n*Jawaban:* ${ans}\n\n`;
     });
-    text += "Tunggu apa lagi? Buruan bales chat ini!";
+    text += "Aku MAU jadi pacar kamu! Tunggu apa lagi? Buruan bales chat ini! ❤️";
     
-    window.open(`https://wa.me/6281338219957?text=${encodeURIComponent(text)}`, '_blank');
+    const whatsappUrl = `https://wa.me/6281511210488?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleSendTimeRequest = () => {
+    if (!selectedDate) return;
+    
+    const dateObj = new Date(selectedDate);
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const formattedDate = dateObj.toLocaleDateString('id-ID', options);
+    
+    const message = `Iaan, aku butuh waktu buat mikir dulu ya... Kasih aku waktu sampai tanggal ${formattedDate}. Nanti aku kasih jawaban pastinya.`;
+    const whatsappUrl = `https://wa.me/6281511210488?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    setShowTimeModal(false);
   };
 
   return (
@@ -436,8 +456,63 @@ function App() {
                     </HexagonButton>
                   </div>
                 </div>
+
+                <div className="mt-8 text-center relative z-20">
+                  <button 
+                    onClick={() => setShowTimeModal(true)}
+                    className="text-pink-300/80 hover:text-pink-300 text-sm md:text-base underline decoration-dashed underline-offset-4 transition-colors"
+                  >
+                    Butuh waktu buat mikir dulu 🤔
+                  </button>
+                </div>
               </div>
             )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showTimeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              className="bg-[#0f172a] border border-pink-500/30 p-6 md:p-8 rounded-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)] max-w-sm w-full relative"
+            >
+              <h2 className="text-2xl font-bold text-white mb-2">Butuh waktu?</h2>
+              <p className="text-pink-200 mb-6 text-sm">Nggak apa-apa kok. Kasih tau Iaan ya kamu butuh waktu sampai kapan (Maksimal 2 minggu yaa 🥺)</p>
+              
+              <input 
+                type="date" 
+                min={today}
+                max={maxDate}
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="w-full bg-black/50 border border-pink-500/50 rounded-lg p-3 text-white mb-6 focus:outline-none focus:border-pink-400"
+              />
+              
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => setShowTimeModal(false)}
+                  className="flex-1 py-2 px-4 rounded-lg border border-pink-500/50 text-pink-300 hover:bg-pink-500/10 transition-colors"
+                >
+                  Batal
+                </button>
+                <button 
+                  onClick={handleSendTimeRequest}
+                  disabled={!selectedDate}
+                  className="flex-1 py-2 px-4 rounded-lg bg-pink-600 text-white font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-pink-500 transition-colors flex items-center justify-center gap-2"
+                >
+                  Kirim <Send size={16} />
+                </button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
