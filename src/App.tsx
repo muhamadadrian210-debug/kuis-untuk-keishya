@@ -370,16 +370,16 @@ function App() {
                   {photos.map((src, i) => {
                     // Predefined positions to frame the center
                     const mobilePositions = [
-                      { left: '-2%', top: '2%', rotate: -15 },
-                      { right: '-2%', top: '5%', rotate: 12 },
-                      { left: '-2%', bottom: '2%', rotate: -10 },
-                      { right: '-2%', bottom: '5%', rotate: 15 },
-                      { left: '-8%', top: '35%', rotate: -5 },
-                      { right: '-8%', top: '40%', rotate: 8 },
-                      { left: '5%', top: '-5%', rotate: -12 },
-                      { right: '5%', top: '-3%', rotate: 14 },
-                      { left: '5%', bottom: '-2%', rotate: 10 },
-                      { right: '5%', bottom: '-2%', rotate: -8 },
+                      { left: '-5%', top: '2%', rotate: -15 },
+                      { right: '-5%', top: '5%', rotate: 12 },
+                      { left: '-5%', bottom: '2%', rotate: -10 },
+                      { right: '-5%', bottom: '5%', rotate: 15 },
+                      { left: '25%', top: '-2%', rotate: -5 },
+                      { right: '25%', top: '-1%', rotate: 8 },
+                      { left: '20%', bottom: '0%', rotate: -12 },
+                      { right: '20%', bottom: '1%', rotate: 14 },
+                      { left: '40%', top: '4%', rotate: 10 },
+                      { right: '40%', bottom: '2%', rotate: -8 },
                     ];
 
                     const desktopPositions = [
@@ -425,9 +425,9 @@ function App() {
                   })}
                 </div>
 
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center bg-black/60 p-8 rounded-3xl backdrop-blur-md border border-pink-500/30 z-20 relative mt-20 md:mt-10">
-                  <Heart className="mx-auto text-pink-500 fill-pink-500 mb-6 drop-shadow-[0_0_30px_rgba(236,72,153,0.8)]" size={100} />
-                  <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center bg-black/60 p-4 md:p-8 rounded-3xl backdrop-blur-md border border-pink-500/30 z-20 relative mt-12 md:mt-10 mx-2 md:mx-0">
+                  <Heart className="mx-auto text-pink-500 fill-pink-500 mb-4 md:mb-6 drop-shadow-[0_0_30px_rgba(236,72,153,0.8)] w-16 h-16 md:w-24 md:h-24" />
+                  <h1 className="text-3xl md:text-6xl font-bold text-white mb-2 md:mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
                   <p className="text-blue-200 text-xl mb-4">You are officially mine now, Keishya.</p>
                   
                   <motion.p 
