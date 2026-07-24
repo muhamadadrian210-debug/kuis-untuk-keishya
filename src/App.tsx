@@ -1,23 +1,21 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
+import YouTube, { YouTubeEvent } from 'react-youtube';
 
 const photos = Array.from({ length: 10 }, (_, i) => `/photos/${i + 1}.png`);
 
 const lyrics = [
-  { text: "I'm here with my confession", translation: "Aku di sini dengan pengakuanku", duration: 3500 },
-  { text: "Got nothing to hide no more", translation: "Tidak ada lagi yang disembunyikan", duration: 4500 },
-  { text: "I don't know where to start", translation: "Aku tidak tahu harus mulai dari mana", duration: 4000 },
-  { text: "But to show you the shape of my heart", translation: "Selain menunjukkan bentuk hatiku", duration: 6000 },
-  { text: "I'm lookin' back on things I've done", translation: "Melihat kembali hal-hal yang t'lah kulakukan", duration: 3500 },
-  { text: "I never wanna play the same old part", translation: "Aku tak ingin lagi memainkan peran yang sama", duration: 4500 },
-  { text: "I'll keep you in the dark (keep you in the dark)", translation: "Aku akan menyembunyikannya darimu (menyembunyikannya darimu)", duration: 6000 },
-  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", duration: 7000 },
-  { text: "Looking back on the things I've done", translation: "Melihat kembali pada hal-hal yang t'lah kulakukan", duration: 3500 },
-  { text: "I was trying to be someone (trying to be someone)", translation: "Aku mencoba menjadi seseorang (mencoba menjadi seseorang)", duration: 4500 },
-  { text: "I played my part, kept you in the dark", translation: "Aku memainkan peranku, menyembunyikannya darimu", duration: 5500 },
-  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", duration: 6000 },
-  { text: "(Now let me show you the true shape of my heart)", translation: "(Sekarang biarkan aku menunjukkan bentuk asliku)", duration: 5000 },
+  { text: "I'm here with my confession", translation: "Aku di sini dengan pengakuanku", start: 132.5, end: 136 },
+  { text: "Got nothing to hide no more", translation: "Tidak ada lagi yang disembunyikan", start: 136, end: 139 },
+  { text: "I don't know where to start", translation: "Aku tidak tahu harus mulai dari mana", start: 139, end: 143 },
+  { text: "But to show you the shape of my heart", translation: "Selain menunjukkan bentuk hatiku", start: 143, end: 149 },
+  { text: "I'm lookin' back on things I've done", translation: "Melihat kembali hal-hal yang t'lah kulakukan", start: 149, end: 154 },
+  { text: "I never wanna play the same old part", translation: "Aku tak ingin lagi memainkan peran yang sama", start: 154, end: 158 },
+  { text: "I'll keep you in the dark (keep you in the dark)", translation: "Aku akan menyembunyikannya darimu (menyembunyikannya darimu)", start: 158, end: 162 },
+  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", start: 162, end: 168 },
+  { text: "Looking back on the things I've done", translation: "Melihat kembali pada hal-hal yang t'lah kulakukan", start: 168, end: 172 },
+  { text: "I was trying to be someone (trying to be someone)", translation: "Aku mencoba menjadi seseorang (mencoba menjadi seseorang)", start: 172, end: 177 },
+  { text: "I played my part, kept you in the dark", translation: "Aku memainkan peranku, menyembunyikannya darimu", start: 177, end: 182 },
+  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", start: 182, end: 192 },
+  { text: "(Now let me show you the true shape of my heart)", translation: "(Sekarang biarkan aku menunjukkan bentuk asliku)", start: 192, end: 200 },
 ];
 
 const questions = [
@@ -98,27 +96,26 @@ function App() {
   const [showError, setShowError] = useState(false);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [currentLyricIndex, setCurrentLyricIndex] = useState(-1);
+  const [player, setPlayer] = useState<any>(null);
+
+  const onReady = (event: YouTubeEvent) => {
+    setPlayer(event.target);
+    event.target.playVideo();
+  };
 
   useEffect(() => {
-    if (!isPlayingMusic) return;
+    if (!player || !isPlayingMusic) return;
     
-    let timeoutId: ReturnType<typeof setTimeout>;
+    const interval = setInterval(() => {
+      const time = player.getCurrentTime();
+      const index = lyrics.findIndex(l => time >= l.start && time < l.end);
+      if (index !== -1 && index !== currentLyricIndex) {
+        setCurrentLyricIndex(index);
+      }
+    }, 100);
     
-    const playLyric = (index: number) => {
-      if (index >= lyrics.length) return;
-      setCurrentLyricIndex(index);
-      timeoutId = setTimeout(() => {
-        playLyric(index + 1);
-      }, lyrics[index].duration);
-    };
-    
-    // Start after 500ms to allow iframe to load
-    timeoutId = setTimeout(() => {
-      playLyric(0);
-    }, 500);
-    
-    return () => clearTimeout(timeoutId);
-  }, [isPlayingMusic]);
+    return () => clearInterval(interval);
+  }, [player, isPlayingMusic, currentLyricIndex]);
 
   const moveNoButton = () => {
     const x = Math.random() * 200 - 100;
@@ -297,16 +294,13 @@ function App() {
           >
             {/* Invisible YouTube Player - Moved outside ternary to prevent unmounting */}
             {isPlayingMusic && (
-              <iframe 
-                width="0" 
-                height="0" 
-                src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=133" 
-                title="Background Music" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-                className="hidden"
-              ></iframe>
+              <div className="hidden">
+                <YouTube 
+                  videoId="OT5msu-dap8" 
+                  opts={{ playerVars: { autoplay: 1, start: 132, playsinline: 1 } }} 
+                  onReady={onReady} 
+                />
+              </div>
             )}
 
             {showConfetti ? (
