@@ -368,7 +368,7 @@ function App() {
                           transform: `rotate(${pos.rotate}deg)`
                         }}
                         onClick={() => setSelectedPhoto(src)}
-                        className="cursor-pointer absolute w-24 h-32 md:w-40 md:h-56 object-cover rounded-xl border-4 border-white/80 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:opacity-100 hover:z-50 transition-opacity"
+                        className="pointer-events-auto cursor-pointer absolute w-24 h-32 md:w-40 md:h-56 object-cover rounded-xl border-4 border-white/80 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:opacity-100 hover:z-50 transition-opacity"
                       />
                     );
                   })}
