@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
 
@@ -78,6 +78,17 @@ function App() {
   const [currentInput, setCurrentInput] = useState("");
   const [answers, setAnswers] = useState<string[]>([]);
   const [showError, setShowError] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (step === questions.length + 1) {
+      if (!audioRef.current) {
+        audioRef.current = new Audio('/shape-of-my-heart.mp3');
+        audioRef.current.loop = true;
+      }
+      audioRef.current.play().catch(e => console.log("Audio autoplay prevented", e));
+    }
+  }, [step]);
 
   const moveNoButton = () => {
     const x = Math.random() * 200 - 100;
