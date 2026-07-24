@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart } from 'lucide-react';
+import { Heart, Trophy, Sparkles } from 'lucide-react';
 
 const questions = [
   {
     q: "Siapa cowok yang lagi dekat sama kamu sekarang? (Ayo jujur!)",
-    options: ["Reza Rahadian", "Jefri Nichol", "Muhamad Adrian", "Angga Yunanda"],
-    correctIndex: 2
+    options: ["Reza Rahadian", "Muhamad Adrian", "Jefri Nichol", "Angga Yunanda"],
+    correctIndex: 1
   },
   {
     q: "Makanan yang paling sering bikin kita bingung pas mau jalan?",
@@ -20,9 +20,11 @@ const questions = [
   }
 ];
 
+const letters = ['A', 'B', 'C', 'D'];
+
 function Confetti() {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-50">
       {[...Array(50)].map((_, i) => (
         <motion.div
           key={i}
@@ -38,19 +40,65 @@ function Confetti() {
   );
 }
 
+// Millionaire style hexagonal button
+function HexagonButton({ children, className = "", onClick, onHoverStart, style }: any) {
+  return (
+    <motion.button
+      onClick={onClick}
+      onHoverStart={onHoverStart}
+      style={style}
+      className={`relative w-full group active:scale-95 transition-transform ${className}`}
+    >
+      {/* Outer Gold Border */}
+      <div 
+        className="w-full bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 p-[2px]"
+        style={{ clipPath: 'polygon(1rem 0%, calc(100% - 1rem) 0%, 100% 50%, calc(100% - 1rem) 100%, 1rem 100%, 0% 50%)' }}
+      >
+        {/* Inner Dark Blue Button */}
+        <div 
+          className="w-full bg-[#04081c] group-hover:bg-[#1a2c79] transition-colors flex items-center px-4 md:px-6 py-4"
+          style={{ clipPath: 'polygon(calc(1rem - 1px) 0%, calc(100% - calc(1rem - 1px)) 0%, 100% 50%, calc(100% - calc(1rem - 1px)) 100%, calc(1rem - 1px) 100%, 0% 50%)' }}
+        >
+          {children}
+        </div>
+      </div>
+    </motion.button>
+  );
+}
+
 function App() {
   const [step, setStep] = useState(-1);
-  const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
+  const [noPositions, setNoPositions] = useState<{ [key: number]: { x: number, y: number } }>({});
   const [showConfetti, setShowConfetti] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
-  const moveNoButton = () => {
+  const moveNoButton = (index: number) => {
+    // Generate random position for the running button within constraints
     const x = Math.random() * 200 - 100;
-    const y = Math.random() * 200 - 100;
-    setNoPosition({ x, y });
+    const y = Math.random() * 250 - 150;
+    setNoPositions(prev => ({ ...prev, [index]: { x, y } }));
+  };
+
+  const handleSelect = (index: number, isWrongTrick: boolean) => {
+    if (isWrongTrick) return; // Prevent click on trick buttons
+    
+    // Flash effect simulation (1 second)
+    setSelectedOption(index);
+    setTimeout(() => {
+      setSelectedOption(null);
+      setStep(step + 1);
+    }, 1000);
   };
 
   return (
-    <div className="w-full max-w-md mx-auto min-h-screen flex flex-col items-center justify-center p-6 relative">
+    <div className="w-full min-h-screen bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900 via-[#03061A] to-black flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
+      
+      {/* Background ambient lights */}
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-screen filter blur-[100px]"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-screen filter blur-[100px]"></div>
+      </div>
+
       {showConfetti && <Confetti />}
       
       <AnimatePresence mode="wait">
@@ -59,51 +107,71 @@ function App() {
             key="intro"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, y: -50 }}
-            className="bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-2xl text-center border border-white"
+            exit={{ opacity: 0, y: -50, scale: 1.2 }}
+            className="text-center z-10 max-w-2xl w-full flex flex-col items-center"
           >
-            <h1 className="text-3xl font-bold text-pink-600 mb-4">Hai Keishya! 👋</h1>
-            <p className="text-slate-700 mb-8 text-lg">Rian punya mini kuis nih buat kamu. Yuk mulai!</p>
-            <button 
-              onClick={() => setStep(0)}
-              className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-pink-500/30 transition-transform active:scale-95"
+            <motion.div 
+              animate={{ rotate: 360 }} 
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="mb-8"
             >
-              Mulai Kuis
-            </button>
+              <Trophy className="text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.6)]" size={80} />
+            </motion.div>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-600 mb-6 drop-shadow-xl font-serif text-center uppercase tracking-wider">
+              Who Wants to Be<br/>Iaan's Girlfriend?
+            </h1>
+            <p className="text-blue-200 mb-10 text-lg tracking-wide">
+              Selamat datang Keishya! Buktikan kalau kamu memang pantas.
+            </p>
+            <HexagonButton onClick={() => setStep(0)} className="w-64 mx-auto">
+              <span className="w-full text-center text-white font-bold text-lg tracking-widest">MULAI KUIS</span>
+            </HexagonButton>
           </motion.div>
         )}
 
         {step >= 0 && step < questions.length && (
           <motion.div 
             key={`q-${step}`}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            className="bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full border border-white"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            className="w-full max-w-4xl z-10 flex flex-col items-center"
           >
-            <div className="text-pink-400 font-bold mb-2 text-sm uppercase tracking-wider">Pertanyaan {step + 1} dari 3</div>
-            <h2 className="text-2xl font-bold text-slate-800 mb-6 leading-tight">{questions[step].q}</h2>
-            <div className="flex flex-col gap-3 relative h-[300px]">
+            {/* Question Display */}
+            <div className="w-full bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 p-[2px] mb-12 shadow-[0_0_30px_rgba(250,204,21,0.2)]" style={{ clipPath: 'polygon(2rem 0%, calc(100% - 2rem) 0%, 100% 50%, calc(100% - 2rem) 100%, 2rem 100%, 0% 50%)' }}>
+              <div className="w-full bg-[#020513] text-center px-12 py-8 min-h-[120px] flex items-center justify-center relative overflow-hidden" style={{ clipPath: 'polygon(calc(2rem - 1px) 0%, calc(100% - calc(2rem - 1px)) 0%, 100% 50%, calc(100% - calc(2rem - 1px)) 100%, calc(2rem - 1px) 100%, 0% 50%)' }}>
+                <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
+                <h2 className="text-xl md:text-3xl font-bold text-white leading-relaxed z-10">
+                  {questions[step].q}
+                </h2>
+              </div>
+            </div>
+
+            {/* Options Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 w-full relative min-h-[300px] md:min-h-0">
               {questions[step].options.map((opt, i) => {
                 const isWrongTrick = step === 0 && i !== questions[step].correctIndex;
+                const isSelected = selectedOption === i;
+                const isCorrect = selectedOption !== null && i === questions[step].correctIndex;
+
+                let btnClass = "";
+                if (isSelected && !isCorrect) btnClass = "bg-orange-600 !important"; // Flashing selection
+                if (isSelected && isCorrect) btnClass = "bg-green-600 !important"; // Correct flash
+                
+                const pos = noPositions[i] || { x: 0, y: 0 };
+                
                 return (
-                  <motion.button 
-                    key={i}
-                    onClick={() => {
-                      if (!isWrongTrick) setStep(step + 1);
-                    }}
-                    onHoverStart={(e) => {
-                      if (isWrongTrick) {
-                        const btn = e.target as HTMLElement;
-                        btn.style.position = 'absolute';
-                        btn.style.left = `${Math.random() * 60}%`;
-                        btn.style.top = `${Math.random() * 80}%`;
-                      }
-                    }}
-                    className={`bg-pink-50 hover:bg-pink-100 text-pink-700 font-semibold py-4 px-6 rounded-2xl border border-pink-200 transition-colors text-left active:scale-[0.98] ${isWrongTrick ? 'z-20' : 'w-full relative z-10'}`}
-                  >
-                    {opt}
-                  </motion.button>
+                  <div key={i} className={`w-full ${isWrongTrick ? 'absolute md:relative' : 'relative'} z-10`} style={isWrongTrick ? { transform: `translate(${pos.x}px, ${pos.y}px)`, transition: 'transform 0.2s ease-out' } : {}}>
+                    <HexagonButton 
+                      onClick={() => handleSelect(i, isWrongTrick)}
+                      onHoverStart={() => { if (isWrongTrick) moveNoButton(i); }}
+                    >
+                      <div className={`w-full flex items-center gap-4 ${btnClass} transition-colors duration-200`}>
+                        <span className="text-orange-400 font-bold text-xl drop-shadow-md">{letters[i]}:</span>
+                        <span className="text-white text-lg md:text-xl">{opt}</span>
+                      </div>
+                    </HexagonButton>
+                  </div>
                 );
               })}
             </div>
@@ -116,17 +184,16 @@ function App() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.2 }}
-            className="bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-2xl text-center border border-white"
+            className="text-center z-10 max-w-2xl w-full flex flex-col items-center"
           >
-            <div className="text-6xl mb-4">🎉</div>
-            <h1 className="text-3xl font-bold text-slate-800 mb-2">Skor Kamu: 100!</h1>
-            <p className="text-pink-600 font-semibold text-lg mb-8">Karena kamu bener semua, ada hadiah spesial buat kamu...</p>
-            <button 
-              onClick={() => setStep(step + 1)}
-              className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-pink-500/30 transition-transform active:scale-95"
-            >
-              Buka Hadiah 🎁
-            </button>
+            <div className="text-6xl mb-6">🏆</div>
+            <h1 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-600 mb-4 drop-shadow-xl font-serif">
+              SKOR: Rp 1.000.000.000,-
+            </h1>
+            <p className="text-blue-200 mb-10 text-lg">Kamu berhasil memenangkan hadiah utama yang tak ternilai harganya...</p>
+            <HexagonButton onClick={() => setStep(step + 1)} className="w-64 mx-auto">
+              <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-lg tracking-widest"><Sparkles size={20}/> KLAIM HADIAH</span>
+            </HexagonButton>
           </motion.div>
         )}
 
@@ -135,39 +202,45 @@ function App() {
             key="confession"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white/90 backdrop-blur-xl p-10 rounded-3xl shadow-2xl text-center border border-white w-full max-w-sm relative z-10"
+            className="w-full max-w-2xl z-10 flex flex-col items-center"
           >
             {showConfetti ? (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                <Heart className="mx-auto text-pink-500 fill-pink-500 mb-4" size={64} />
-                <h1 className="text-3xl font-bold text-pink-600 mb-2">Yayyy! I Love You! ❤️</h1>
-                <p className="text-slate-700">You are officially mine now, Keishya.</p>
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center">
+                <Heart className="mx-auto text-pink-500 fill-pink-500 mb-6 drop-shadow-[0_0_30px_rgba(236,72,153,0.8)]" size={100} />
+                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
+                <p className="text-blue-200 text-xl">You are officially mine now, Keishya.</p>
               </motion.div>
             ) : (
-              <>
-                <Heart className="mx-auto text-pink-500 mb-6" size={48} />
-                <h1 className="text-3xl font-bold text-slate-800 mb-4 leading-tight">Will you be my girlfriend?</h1>
-                <p className="text-slate-600 mb-10">Iaan beneran sayang banget sama Keishya. Mau kan?</p>
+              <div className="w-full flex flex-col items-center">
+                <Heart className="text-pink-500 fill-pink-500/20 mb-8 animate-pulse drop-shadow-[0_0_15px_rgba(236,72,153,0.6)]" size={64} />
                 
-                <div className="flex justify-center gap-6 relative h-16">
-                  <button 
-                    onClick={() => setShowConfetti(true)}
-                    className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95 z-20"
-                  >
-                    MAU ❤️
-                  </button>
-                  
-                  <motion.button 
-                    animate={{ x: noPosition.x, y: noPosition.y }}
-                    onHoverStart={moveNoButton}
-                    onClick={moveNoButton}
-                    className="bg-slate-200 hover:bg-slate-300 text-slate-600 font-bold py-3 px-8 rounded-full absolute z-10"
-                    style={{ left: '60%' }}
-                  >
-                    NGGAK
-                  </motion.button>
+                <div className="w-full bg-gradient-to-r from-pink-600 via-pink-400 to-pink-600 p-[2px] mb-12 shadow-[0_0_30px_rgba(236,72,153,0.4)]" style={{ clipPath: 'polygon(2rem 0%, calc(100% - 2rem) 0%, 100% 50%, calc(100% - 2rem) 100%, 2rem 100%, 0% 50%)' }}>
+                  <div className="w-full bg-[#020513] text-center px-6 py-10 flex flex-col items-center justify-center relative overflow-hidden" style={{ clipPath: 'polygon(calc(2rem - 1px) 0%, calc(100% - calc(2rem - 1px)) 0%, 100% 50%, calc(100% - calc(2rem - 1px)) 100%, calc(2rem - 1px) 100%, 0% 50%)' }}>
+                    <h1 className="text-2xl md:text-4xl font-bold text-white mb-4 leading-tight">Will you be my girlfriend?</h1>
+                    <p className="text-pink-200">Iaan beneran sayang banget sama Keishya. Mau kan?</p>
+                  </div>
                 </div>
-              </>
+                
+                <div className="flex justify-center gap-4 w-full px-4 relative h-32 md:h-20">
+                  <div className="w-1/2 md:w-64 relative z-20">
+                    <HexagonButton onClick={() => setShowConfetti(true)}>
+                      <span className="w-full text-center text-white font-bold text-xl">MAU ❤️</span>
+                    </HexagonButton>
+                  </div>
+                  
+                  <div 
+                    className="w-1/2 md:w-64 absolute right-4 md:right-1/2 md:-mr-32 z-10"
+                    style={{ transform: `translate(${noPositions[99]?.x || 0}px, ${noPositions[99]?.y || 0}px)`, transition: 'transform 0.2s ease-out' }}
+                  >
+                    <HexagonButton 
+                      onHoverStart={() => moveNoButton(99)}
+                      onClick={() => moveNoButton(99)}
+                    >
+                      <span className="w-full text-center text-white/50 font-bold text-xl">NGGAK</span>
+                    </HexagonButton>
+                  </div>
+                </div>
+              </div>
             )}
           </motion.div>
         )}
