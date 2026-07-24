@@ -6,19 +6,19 @@ import YouTube, { type YouTubeEvent } from 'react-youtube';
 const photos = Array.from({ length: 8 }, (_, i) => `/photos/${i + 1}.jpg`);
 
 const lyrics = [
-  { text: "I'm here with my confession", translation: "Aku di sini dengan pengakuanku", start: 133.2, end: 138.2 },
-  { text: "Got nothing to hide no more", translation: "Tidak ada lagi yang disembunyikan", start: 138.2, end: 142.0 },
-  { text: "I don't know where to start", translation: "Aku tidak tahu harus mulai dari mana", start: 142.0, end: 146.9 },
-  { text: "But to show you the shape of my heart", translation: "Selain menunjukkan bentuk hatiku", start: 146.9, end: 154.4 },
-  { text: "I'm lookin' back on things I've done", translation: "Melihat kembali hal-hal yang t'lah kulakukan", start: 157.9, end: 163.2 },
-  { text: "I never wanna play the same old part", translation: "Aku tak ingin lagi memainkan peran yang sama", start: 163.2, end: 168.7 },
-  { text: "I'll keep you in the dark (keep you in the dark)", translation: "Aku akan menyembunyikannya darimu (menyembunyikannya darimu)", start: 168.7, end: 172.9 },
-  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", start: 172.9, end: 177.1 },
-  { text: "Looking back on the things I've done", translation: "Melihat kembali pada hal-hal yang t'lah kulakukan", start: 177.1, end: 181.3 },
-  { text: "I was trying to be someone (trying to be someone)", translation: "Aku mencoba menjadi seseorang (mencoba menjadi seseorang)", start: 181.3, end: 185.1 },
-  { text: "I played my part, kept you in the dark", translation: "Aku memainkan peranku, menyembunyikannya darimu", start: 185.1, end: 191.6 },
-  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", start: 191.6, end: 197.2 },
-  { text: "(Now let me show you the true shape of my heart)", translation: "(Sekarang biarkan aku menunjukkan bentuk asliku)", start: 197.2, end: 205.9 },
+  { text: "I'm here with my confession", translation: "Aku di sini dengan pengakuanku", start: 132.8, end: 138.4 },
+  { text: "Got nothing to hide no more", translation: "Tidak ada lagi yang disembunyikan", start: 138.4, end: 144.0 },
+  { text: "I don't know where to start", translation: "Aku tidak tahu harus mulai dari mana", start: 144.0, end: 148.0 },
+  { text: "But to show you the shape of my heart", translation: "Selain menunjukkan bentuk hatiku", start: 148.0, end: 157.0 },
+  { text: "I'm lookin' back on things I've done", translation: "Melihat kembali hal-hal yang t'lah kulakukan", start: 157.0, end: 162.5 },
+  { text: "I never wanna play the same old part", translation: "Aku tak ingin lagi memainkan peran yang sama", start: 162.5, end: 168.0 },
+  { text: "I'll keep you in the dark (keep you in the dark)", translation: "Aku akan menyembunyikannya darimu (menyembunyikannya darimu)", start: 168.0, end: 172.5 },
+  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", start: 172.5, end: 177.0 },
+  { text: "Looking back on the things I've done", translation: "Melihat kembali pada hal-hal yang t'lah kulakukan", start: 177.0, end: 181.0 },
+  { text: "I was trying to be someone (trying to be someone)", translation: "Aku mencoba menjadi seseorang (mencoba menjadi seseorang)", start: 181.0, end: 185.0 },
+  { text: "I played my part, kept you in the dark", translation: "Aku memainkan peranku, menyembunyikannya darimu", start: 185.0, end: 191.0 },
+  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", start: 191.0, end: 196.5 },
+  { text: "(Now let me show you the true shape of my heart)", translation: "(Sekarang biarkan aku menunjukkan bentuk asliku)", start: 196.5, end: 206.0 },
 ];
 
 const questions = [
