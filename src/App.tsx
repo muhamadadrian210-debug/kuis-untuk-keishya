@@ -300,7 +300,7 @@ function App() {
               <iframe 
                 width="0" 
                 height="0" 
-                src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=117" 
+                src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=133" 
                 title="Background Music" 
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
