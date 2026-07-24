@@ -16,19 +16,19 @@ const questions = [
     waMessage: "Iaan, ini makanan apa sih yang selalu bikin kita berantem pas mau jalan? Help dong! 🍟"
   },
   {
-    q: "Apa hal yang paling Iaan suka dari Keishya?",
+    q: "Apa hal yang paling aku suka dari kamu?",
     options: ["Senyum manisnya", "Bawelnya yang ngangenin", "Pipinnya yang cubitable", "Semua Benar"],
     correctIndex: 3,
     waMessage: "Iaan! Jawab jujur, kamu paling suka bagian apa dari aku? Biar bener nih kuisnya! 😳"
   },
   {
-    q: "Kalau Iaan lagi kangen banget sama Keishya, biasanya dia ngapain?",
-    options: ["Nangis di pojokan kamar", "Cari-cari alasan buat nge-chat", "Buka tutup WA nungguin online", "Semua Benar"],
+    q: "Kalau aku lagi kangen banget sama kamu, biasanya aku ngapain coba?",
+    options: ["Nangis di pojokan kamar", "Cari-cari alasan buat nge-chat", "Buka tutup WA nungguin kamu online", "Semua Benar"],
     correctIndex: 3,
     waMessage: "Bey, kalau kamu lagi kangen aku biasanya ngapain sih? Buka tutup WA nungguin aku online ya? Ngaku! 🤭"
   },
   {
-    q: "Siapa yang paling sayang banget sama Keishya?",
+    q: "Siapa cowok yang paling sayang bangeeet sama kamu?",
     options: ["Iaan", "Iaan banget", "Iaan selamanya", "Semua Benar"],
     correctIndex: 3,
     waMessage: "Pertanyaan terakhir nih! Siapa yang paling sayang sama aku di dunia ini? Pasti kamu kan? ❤️"
