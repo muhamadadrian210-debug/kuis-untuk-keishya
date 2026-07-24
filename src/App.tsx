@@ -97,6 +97,14 @@ function App() {
   const [showTimeModal, setShowTimeModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [waitingDateStr, setWaitingDateStr] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   const today = new Date().toISOString().split('T')[0];
   const maxDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
@@ -333,7 +341,7 @@ function App() {
                 <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
                   {photos.map((src, i) => {
                     // Predefined positions to frame the center
-                    const positions = [
+                    const mobilePositions = [
                       { left: '-2%', top: '2%', rotate: -15 },
                       { right: '-2%', top: '5%', rotate: 12 },
                       { left: '-2%', bottom: '2%', rotate: -10 },
@@ -345,6 +353,21 @@ function App() {
                       { left: '5%', bottom: '-2%', rotate: 10 },
                       { right: '5%', bottom: '-2%', rotate: -8 },
                     ];
+
+                    const desktopPositions = [
+                      { left: '2%', top: '5%', rotate: -15 },
+                      { right: '2%', top: '8%', rotate: 12 },
+                      { left: '5%', bottom: '5%', rotate: -10 },
+                      { right: '5%', bottom: '8%', rotate: 15 },
+                      { left: '8%', top: '40%', rotate: -5 },
+                      { right: '8%', top: '45%', rotate: 8 },
+                      { left: '25%', top: '-2%', rotate: -12 },
+                      { right: '25%', top: '-1%', rotate: 14 },
+                      { left: '20%', bottom: '0%', rotate: 10 },
+                      { right: '20%', bottom: '2%', rotate: -8 },
+                    ];
+                    
+                    const positions = isMobile ? mobilePositions : desktopPositions;
                     
                     const pos = positions[i % positions.length];
                     
