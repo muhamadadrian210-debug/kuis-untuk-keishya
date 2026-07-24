@@ -116,6 +116,7 @@ function App() {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [currentLyricIndex, setCurrentLyricIndex] = useState(-1);
   const [player, setPlayer] = useState<any>(null);
+  const [isSongFinished, setIsSongFinished] = useState(false);
 
   const onReady = (event: YouTubeEvent) => {
     setPlayer(event.target);
@@ -127,6 +128,11 @@ function App() {
     
     const interval = setInterval(() => {
       const time = player.getCurrentTime();
+      
+      if (time > 206 && !isSongFinished) {
+        setIsSongFinished(true);
+      }
+      
       const index = lyrics.findIndex(l => time >= l.start && time < l.end);
       if (index !== -1 && index !== currentLyricIndex) {
         setCurrentLyricIndex(index);
@@ -402,11 +408,19 @@ function App() {
                   <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
                   <p className="text-blue-200 text-xl mb-8">You are officially mine now, Keishya.</p>
                   
-                  <HexagonButton onClick={handleSendToWhatsApp} className="w-72 mx-auto">
-                    <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-lg pointer-events-auto">
-                      KIRIM JAWABAN KE IAAN <Send size={18}/>
-                    </span>
-                  </HexagonButton>
+                  {isSongFinished ? (
+                    <HexagonButton onClick={handleSendToWhatsApp} className="w-72 mx-auto">
+                      <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-lg pointer-events-auto">
+                        KIRIM JAWABAN KE IAAN <Send size={18}/>
+                      </span>
+                    </HexagonButton>
+                  ) : (
+                    <div className="w-72 mx-auto text-center border-2 border-pink-500/30 bg-pink-900/40 p-4 rounded-xl shadow-[0_0_15px_rgba(236,72,153,0.3)]">
+                      <p className="text-pink-200 text-sm md:text-base font-semibold tracking-wide drop-shadow-sm">
+                        Tombol kirim jawaban akan muncul setelah lagunya habis ya sayang... Dengerin dulu sampai habis ❤️🥺
+                      </p>
+                    </div>
+                  )}
                   
                   {currentLyricIndex >= 0 && currentLyricIndex < lyrics.length && (
                     <AnimatePresence mode="wait">
