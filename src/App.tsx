@@ -1,8 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
 
 const photos = Array.from({ length: 10 }, (_, i) => `/photos/${i + 1}.png`);
+
+const lyrics = [
+  { text: "I'm here with my confession", translation: "Aku di sini dengan pengakuanku", duration: 3500 },
+  { text: "Got nothing to hide no more", translation: "Tidak ada lagi yang disembunyikan", duration: 4500 },
+  { text: "I don't know where to start", translation: "Aku tidak tahu harus mulai dari mana", duration: 4000 },
+  { text: "But to show you the shape of my heart", translation: "Selain menunjukkan bentuk hatiku", duration: 6000 },
+  { text: "I'm lookin' back on things I've done", translation: "Melihat kembali hal-hal yang t'lah kulakukan", duration: 3500 },
+  { text: "I never wanna play the same old part", translation: "Aku tak ingin lagi memainkan peran yang sama", duration: 4500 },
+  { text: "I'll keep you in the dark (keep you in the dark)", translation: "Aku akan menyembunyikannya darimu (menyembunyikannya darimu)", duration: 6000 },
+  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", duration: 7000 },
+  { text: "Looking back on the things I've done", translation: "Melihat kembali pada hal-hal yang t'lah kulakukan", duration: 3500 },
+  { text: "I was trying to be someone (trying to be someone)", translation: "Aku mencoba menjadi seseorang (mencoba menjadi seseorang)", duration: 4500 },
+  { text: "I played my part, kept you in the dark", translation: "Aku memainkan peranku, menyembunyikannya darimu", duration: 5500 },
+  { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", duration: 6000 },
+  { text: "(Now let me show you the true shape of my heart)", translation: "(Sekarang biarkan aku menunjukkan bentuk asliku)", duration: 5000 },
+];
 
 const questions = [
   {
@@ -81,6 +97,28 @@ function App() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [showError, setShowError] = useState(false);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+  const [currentLyricIndex, setCurrentLyricIndex] = useState(-1);
+
+  useEffect(() => {
+    if (!isPlayingMusic) return;
+    
+    let timeoutId: NodeJS.Timeout;
+    
+    const playLyric = (index: number) => {
+      if (index >= lyrics.length) return;
+      setCurrentLyricIndex(index);
+      timeoutId = setTimeout(() => {
+        playLyric(index + 1);
+      }, lyrics[index].duration);
+    };
+    
+    // Start after 500ms to allow iframe to load
+    timeoutId = setTimeout(() => {
+      playLyric(0);
+    }, 500);
+    
+    return () => clearTimeout(timeoutId);
+  }, [isPlayingMusic]);
 
   const moveNoButton = () => {
     const x = Math.random() * 200 - 100;
@@ -295,6 +333,26 @@ function App() {
                       KIRIM JAWABAN KE IAAN <Send size={18}/>
                     </span>
                   </HexagonButton>
+                  
+                  {currentLyricIndex >= 0 && currentLyricIndex < lyrics.length && (
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentLyricIndex}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.5 }}
+                        className="mt-6 p-4 bg-black/40 rounded-xl border border-pink-500/20 backdrop-blur-sm"
+                      >
+                        <p className="text-white text-xl md:text-2xl font-bold tracking-wide shadow-black drop-shadow-md">
+                          {lyrics[currentLyricIndex].text}
+                        </p>
+                        <p className="text-pink-300 text-sm md:text-base italic mt-1 drop-shadow-sm">
+                          {lyrics[currentLyricIndex].translation}
+                        </p>
+                      </motion.div>
+                    </AnimatePresence>
+                  )}
                 </motion.div>
               </>
             ) : (
@@ -321,7 +379,7 @@ function App() {
                   <iframe 
                     width="0" 
                     height="0" 
-                    src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=65" 
+                    src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=152" 
                     title="Background Music" 
                     frameBorder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
