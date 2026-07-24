@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
 import YouTube, { type YouTubeEvent } from 'react-youtube';
 
-const photos = Array.from({ length: 10 }, (_, i) => `/photos/${i + 1}.png`);
+const photos = Array.from({ length: 8 }, (_, i) => `/photos/${i + 1}.jpg`);
 
 const lyrics = [
   { text: "I'm here with my confession", translation: "Aku di sini dengan pengakuanku", start: 134.5, end: 137.5 },
