@@ -1,41 +1,29 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Trophy, Sparkles } from 'lucide-react';
+import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
 
 const questions = [
   {
     q: "Siapa cowok yang lagi dekat sama kamu sekarang? (Ayo jujur!)",
-    options: ["Reza Rahadian", "Muhamad Adrian", "Jefri Nichol", "Angga Yunanda"],
-    correctIndex: 1,
     waMessage: "Halo Iaan ganteng, bantuin jawab kuis dong! Siapa sih cowok yang lagi deket sama aku? 🤔"
   },
   {
     q: "Makanan yang paling sering bikin kita bingung pas mau jalan?",
-    options: ["Terserah", "Bebas", "Apa Aja", "Semua Benar"],
-    correctIndex: 3,
     waMessage: "Iaan, ini makanan apa sih yang selalu bikin kita berantem pas mau jalan? Help dong! 🍟"
   },
   {
     q: "Apa hal yang paling aku suka dari kamu?",
-    options: ["Senyum manisnya", "Bawelnya yang ngangenin", "Pipinnya yang cubitable", "Semua Benar"],
-    correctIndex: 3,
     waMessage: "Iaan! Jawab jujur, kamu paling suka bagian apa dari aku? Biar bener nih kuisnya! 😳"
   },
   {
     q: "Kalau aku lagi kangen banget sama kamu, biasanya aku ngapain coba?",
-    options: ["Nangis di pojokan kamar", "Cari-cari alasan buat nge-chat", "Buka tutup WA nungguin kamu online", "Semua Benar"],
-    correctIndex: 3,
     waMessage: "Bey, kalau kamu lagi kangen aku biasanya ngapain sih? Buka tutup WA nungguin aku online ya? Ngaku! 🤭"
   },
   {
     q: "Siapa cowok yang paling sayang bangeeet sama kamu?",
-    options: ["Iaan", "Iaan banget", "Iaan selamanya", "Semua Benar"],
-    correctIndex: 3,
     waMessage: "Pertanyaan terakhir nih! Siapa yang paling sayang sama aku di dunia ini? Pasti kamu kan? ❤️"
   }
 ];
-
-const letters = ['A', 'B', 'C', 'D'];
 
 function Confetti() {
   return (
@@ -62,7 +50,7 @@ function HexagonButton({ children, className = "", onClick, onHoverStart, style 
       onClick={onClick}
       onHoverStart={onHoverStart}
       style={style}
-      className={`relative w-full group active:scale-95 transition-transform ${className}`}
+      className={`relative group active:scale-95 transition-transform ${className}`}
     >
       {/* Outer Gold Border */}
       <div 
@@ -71,7 +59,7 @@ function HexagonButton({ children, className = "", onClick, onHoverStart, style 
       >
         {/* Inner Dark Blue Button */}
         <div 
-          className="w-full bg-[#04081c] group-hover:bg-[#1a2c79] transition-colors flex items-center px-4 md:px-6 py-4"
+          className="w-full bg-[#04081c] group-hover:bg-[#1a2c79] transition-colors flex items-center justify-center px-4 md:px-6 py-4"
           style={{ clipPath: 'polygon(calc(1rem - 1px) 0%, calc(100% - calc(1rem - 1px)) 0%, 100% 50%, calc(100% - calc(1rem - 1px)) 100%, calc(1rem - 1px) 100%, 0% 50%)' }}
         >
           {children}
@@ -83,26 +71,56 @@ function HexagonButton({ children, className = "", onClick, onHoverStart, style 
 
 function App() {
   const [step, setStep] = useState(-1);
-  const [noPositions, setNoPositions] = useState<{ [key: number]: { x: number, y: number } }>({});
+  const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
   const [showConfetti, setShowConfetti] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  
+  // Essay state
+  const [currentInput, setCurrentInput] = useState("");
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [showError, setShowError] = useState(false);
 
-  const moveNoButton = (index: number) => {
-    // Generate random position for the running button within constraints
+  const moveNoButton = () => {
     const x = Math.random() * 200 - 100;
     const y = Math.random() * 250 - 150;
-    setNoPositions(prev => ({ ...prev, [index]: { x, y } }));
+    setNoPosition({ x, y });
   };
 
-  const handleSelect = (index: number, isWrongTrick: boolean) => {
-    if (isWrongTrick) return; // Prevent click on trick buttons
+  const isFirstQuestionTrickActive = () => {
+    if (step !== 0) return false;
+    const text = currentInput.toLowerCase();
+    // Valid if she types 'adrian', 'iaan', 'rian', or 'muhamad'
+    const isValid = text.includes('adrian') || text.includes('iaan') || text.includes('rian') || text.includes('muhamad');
+    return !isValid;
+  };
+
+  const handleNext = () => {
+    if (currentInput.trim() === "") {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 2000);
+      return;
+    }
+
+    if (isFirstQuestionTrickActive()) {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 2000);
+      return;
+    }
+
+    setAnswers([...answers, currentInput]);
+    setCurrentInput("");
+    setShowError(false);
+    setNoPosition({ x: 0, y: 0 });
+    setStep(step + 1);
+  };
+
+  const handleSendToWhatsApp = () => {
+    let text = "Halo Iaan! Ini jawaban essay dari Keishya:\n\n";
+    answers.forEach((ans, i) => {
+      text += `*Pertanyaan ${i+1}:* ${questions[i].q}\n*Jawaban:* ${ans}\n\n`;
+    });
+    text += "Tunggu apa lagi? Buruan bales chat ini! 😘";
     
-    // Flash effect simulation (1 second)
-    setSelectedOption(index);
-    setTimeout(() => {
-      setSelectedOption(null);
-      setStep(step + 1);
-    }, 1000);
+    window.open(`https://wa.me/6281338219957?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
@@ -136,7 +154,7 @@ function App() {
               Who Wants to Be<br/>Iaan's Girlfriend?
             </h1>
             <p className="text-blue-200 mb-10 text-lg tracking-wide">
-              Selamat datang Keishya! Buktikan kalau kamu memang pantas.
+              Selamat datang Keishya! Buktikan kalau kamu memang pantas. Jawab kuis essay ini dari hati kamu.
             </p>
             <HexagonButton onClick={() => setStep(0)} className="w-64 mx-auto">
               <span className="w-full text-center text-white font-bold text-lg tracking-widest">MULAI KUIS</span>
@@ -167,7 +185,7 @@ function App() {
             </div>
 
             {/* Question Display */}
-            <div className="w-full bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 p-[2px] mb-12 shadow-[0_0_30px_rgba(250,204,21,0.2)] mt-8" style={{ clipPath: 'polygon(2rem 0%, calc(100% - 2rem) 0%, 100% 50%, calc(100% - 2rem) 100%, 2rem 100%, 0% 50%)' }}>
+            <div className="w-full bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 p-[2px] mb-8 shadow-[0_0_30px_rgba(250,204,21,0.2)] mt-8" style={{ clipPath: 'polygon(2rem 0%, calc(100% - 2rem) 0%, 100% 50%, calc(100% - 2rem) 100%, 2rem 100%, 0% 50%)' }}>
               <div className="w-full bg-[#020513] text-center px-12 py-8 min-h-[120px] flex items-center justify-center relative overflow-hidden" style={{ clipPath: 'polygon(calc(2rem - 1px) 0%, calc(100% - calc(2rem - 1px)) 0%, 100% 50%, calc(100% - calc(2rem - 1px)) 100%, calc(2rem - 1px) 100%, 0% 50%)' }}>
                 <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
                 <h2 className="text-xl md:text-3xl font-bold text-white leading-relaxed z-10">
@@ -176,33 +194,41 @@ function App() {
               </div>
             </div>
 
-            {/* Options Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 w-full relative min-h-[300px] md:min-h-0">
-              {questions[step].options.map((opt, i) => {
-                const isWrongTrick = step === 0 && i !== questions[step].correctIndex;
-                const isSelected = selectedOption === i;
-                const isCorrect = selectedOption !== null && i === questions[step].correctIndex;
+            {/* Essay Input */}
+            <motion.div 
+              animate={showError ? { x: [-10, 10, -10, 10, 0] } : {}}
+              transition={{ duration: 0.4 }}
+              className="w-full max-w-2xl mb-8 relative"
+            >
+              <textarea
+                value={currentInput}
+                onChange={(e) => setCurrentInput(e.target.value)}
+                placeholder="Ketik jawaban kamu di sini..."
+                className={`w-full bg-[#04081c]/80 border-2 ${showError ? 'border-red-500 focus:border-red-500' : 'border-yellow-600/50 focus:border-yellow-400'} rounded-2xl p-6 text-white text-lg min-h-[150px] shadow-inner focus:outline-none focus:ring-4 focus:ring-yellow-500/20 backdrop-blur-sm transition-all resize-none`}
+              />
+              {showError && (
+                <p className="text-red-400 text-sm mt-2 font-semibold absolute -bottom-8 left-0 w-full text-center">
+                  {currentInput.trim() === "" ? "Jawaban nggak boleh kosong!" : "Tetot! Ayo jujur, pasti orang lain kan? Coba isi yang bener!"}
+                </p>
+              )}
+            </motion.div>
 
-                let btnClass = "";
-                if (isSelected && !isCorrect) btnClass = "bg-orange-600 !important"; // Flashing selection
-                if (isSelected && isCorrect) btnClass = "bg-green-600 !important"; // Correct flash
-                
-                const pos = noPositions[i] || { x: 0, y: 0 };
-                
-                return (
-                  <div key={i} className={`w-full ${isWrongTrick ? 'absolute md:relative' : 'relative'} z-10`} style={isWrongTrick ? { transform: `translate(${pos.x}px, ${pos.y}px)`, transition: 'transform 0.2s ease-out' } : {}}>
-                    <HexagonButton 
-                      onClick={() => handleSelect(i, isWrongTrick)}
-                      onHoverStart={() => { if (isWrongTrick) moveNoButton(i); }}
-                    >
-                      <div className={`w-full flex items-center gap-4 ${btnClass} transition-colors duration-200`}>
-                        <span className="text-orange-400 font-bold text-xl drop-shadow-md">{letters[i]}:</span>
-                        <span className="text-white text-lg md:text-xl">{opt}</span>
-                      </div>
-                    </HexagonButton>
-                  </div>
-                );
-              })}
+            {/* Submit Button */}
+            <div className="w-full relative h-20 flex justify-center mt-4">
+              <div 
+                className={`absolute z-10 w-64 ${isFirstQuestionTrickActive() && currentInput.trim() !== "" ? '' : 'transition-none'}`}
+                style={isFirstQuestionTrickActive() && currentInput.trim() !== "" ? { transform: `translate(${noPosition.x}px, ${noPosition.y}px)`, transition: 'transform 0.2s ease-out' } : {}}
+              >
+                <HexagonButton 
+                  onClick={handleNext}
+                  onHoverStart={() => { if (isFirstQuestionTrickActive() && currentInput.trim() !== "") moveNoButton(); }}
+                  className="w-full"
+                >
+                  <span className="w-full text-center text-white font-bold text-lg tracking-widest flex items-center justify-center gap-2">
+                    KUNCI JAWABAN
+                  </span>
+                </HexagonButton>
+              </div>
             </div>
           </motion.div>
         )}
@@ -219,7 +245,7 @@ function App() {
             <h1 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-600 mb-4 drop-shadow-xl font-serif">
               SKOR: Rp 1.000.000.000,-
             </h1>
-            <p className="text-blue-200 mb-10 text-lg">Kamu berhasil memenangkan hadiah utama yang tak ternilai harganya...</p>
+            <p className="text-blue-200 mb-10 text-lg">Kamu berhasil ngejawab semuanya dengan jujur! Sekarang klaim hadiah utamanya...</p>
             <HexagonButton onClick={() => setStep(step + 1)} className="w-64 mx-auto">
               <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-lg tracking-widest"><Sparkles size={20}/> KLAIM HADIAH</span>
             </HexagonButton>
@@ -237,7 +263,13 @@ function App() {
               <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center">
                 <Heart className="mx-auto text-pink-500 fill-pink-500 mb-6 drop-shadow-[0_0_30px_rgba(236,72,153,0.8)]" size={100} />
                 <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
-                <p className="text-blue-200 text-xl">You are officially mine now, Keishya.</p>
+                <p className="text-blue-200 text-xl mb-8">You are officially mine now, Keishya.</p>
+                
+                <HexagonButton onClick={handleSendToWhatsApp} className="w-72 mx-auto">
+                  <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-lg">
+                    KIRIM JAWABAN KE IAAN <Send size={18}/>
+                  </span>
+                </HexagonButton>
               </motion.div>
             ) : (
               <div className="w-full flex flex-col items-center">
@@ -259,11 +291,11 @@ function App() {
                   
                   <div 
                     className="w-1/2 md:w-64 absolute right-4 md:right-1/2 md:-mr-32 z-10"
-                    style={{ transform: `translate(${noPositions[99]?.x || 0}px, ${noPositions[99]?.y || 0}px)`, transition: 'transform 0.2s ease-out' }}
+                    style={{ transform: `translate(${noPosition.x}px, ${noPosition.y}px)`, transition: 'transform 0.2s ease-out' }}
                   >
                     <HexagonButton 
-                      onHoverStart={() => moveNoButton(99)}
-                      onClick={() => moveNoButton(99)}
+                      onHoverStart={moveNoButton}
+                      onClick={moveNoButton}
                     >
                       <span className="w-full text-center text-white/50 font-bold text-xl">NGGAK</span>
                     </HexagonButton>
