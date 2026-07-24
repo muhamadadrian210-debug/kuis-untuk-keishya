@@ -366,6 +366,16 @@ function App() {
                   </div>
                 </div>
                 
+                {!isPlayingMusic && (
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    className="mb-2 text-pink-300 font-semibold text-center text-sm md:text-base drop-shadow-md"
+                  >
+                    👇 Wajib putar lagu ini dulu sayang, baru tekan MAU 👇
+                  </motion.div>
+                )}
+
                 <button 
                   onClick={() => setIsPlayingMusic(true)}
                   className={`mb-8 flex items-center gap-2 px-6 py-2 rounded-full border-2 border-pink-500 text-pink-400 hover:bg-pink-500/20 transition-colors ${isPlayingMusic ? 'hidden' : ''}`}
