@@ -424,10 +424,10 @@ function App() {
                     className="w-1/2 md:w-64 absolute z-30 transition-all duration-200"
                     style={{ right: '1rem', transform: `translate(${noPosition.x}px, ${noPosition.y}px)` }}
                     onMouseEnter={moveNoButton}
-                    onTouchStart={(e) => { e.preventDefault(); moveNoButton(); }}
+                    onTouchStart={(e: any) => { e.preventDefault(); moveNoButton(); }}
                     onClick={moveNoButton}
                   >
-                    <HexagonButton className="w-full opacity-80" onClick={(e) => { e.preventDefault(); moveNoButton(); }}>
+                    <HexagonButton className="w-full opacity-80" onClick={(e: any) => { e.preventDefault(); moveNoButton(); }}>
                       <span className="w-full flex items-center justify-center gap-2 text-white/70 font-bold text-lg md:text-2xl">
                         NGGAK 💔
                       </span>
