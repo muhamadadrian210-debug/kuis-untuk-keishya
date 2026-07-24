@@ -18,7 +18,11 @@ const lyrics = [
   { text: "I was trying to be someone (trying to be someone)", translation: "Aku mencoba menjadi seseorang (mencoba menjadi seseorang)", start: 181.0, end: 185.0 },
   { text: "I played my part, kept you in the dark", translation: "Aku memainkan peranku, menyembunyikannya darimu", start: 185.0, end: 191.0 },
   { text: "Now let me show you the shape of my heart", translation: "Sekarang biarkan aku menunjukkan bentuk hatiku", start: 191.0, end: 196.5 },
-  { text: "(Now let me show you the true shape of my heart)", translation: "(Sekarang biarkan aku menunjukkan bentuk asliku)", start: 196.5, end: 206.0 },
+  { text: "Looking back on the things I've done", translation: "Melihat kembali pada hal-hal yang t'lah kulakukan", start: 196.5, end: 200.5 },
+  { text: "I was trying to be someone", translation: "Aku mencoba menjadi seseorang", start: 200.5, end: 205.5 },
+  { text: "I played my part, kept you in the dark", translation: "Aku memainkan peranku, menyembunyikannya darimu", start: 205.5, end: 211.5 },
+  { text: "Now let me show you the shape of...", translation: "Sekarang biarkan aku menunjukkan bentuk...", start: 211.5, end: 216.5 },
+  { text: "Show you the shape of my heart", translation: "Menunjukkan bentuk hatiku padamu", start: 216.5, end: 226.5 },
 ];
 
 const questions = [
@@ -141,7 +145,7 @@ function App() {
     const interval = setInterval(() => {
       const time = player.getCurrentTime();
       
-      if (time > 206 && !isSongFinished) {
+      if (time > 226.5 && !isSongFinished) {
         setIsSongFinished(true);
       }
       
