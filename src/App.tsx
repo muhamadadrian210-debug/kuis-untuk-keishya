@@ -300,7 +300,7 @@ function App() {
               <iframe 
                 width="0" 
                 height="0" 
-                src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=139" 
+                src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=117" 
                 title="Background Music" 
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -315,7 +315,7 @@ function App() {
                 <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
                   {photos.map((src, i) => {
                     const angle = (i / photos.length) * 360;
-                    const distance = 160; // Spread radius
+                    const distance = typeof window !== 'undefined' && window.innerWidth < 768 ? 110 : 180; // Spread radius
                     const rotate = angle + 90;
                     
                     return (
@@ -406,14 +406,16 @@ function App() {
                   </div>
                   
                   <div 
-                    className="w-1/2 md:w-64 absolute right-4 md:right-1/2 md:-mr-32 z-10"
-                    style={{ transform: `translate(${noPosition.x}px, ${noPosition.y}px)`, transition: 'transform 0.2s ease-out' }}
+                    className="w-1/2 md:w-64 absolute z-30 transition-all duration-200"
+                    style={{ right: '1rem', ...noButtonStyle }}
+                    onMouseEnter={moveNoButton}
+                    onTouchStart={(e) => { e.preventDefault(); moveNoButton(); }}
+                    onClick={moveNoButton}
                   >
-                    <HexagonButton 
-                      onHoverStart={moveNoButton}
-                      onClick={moveNoButton}
-                    >
-                      <span className="w-full text-center text-white/50 font-bold text-xl">NGGAK</span>
+                    <HexagonButton className="w-full opacity-80" onClick={(e) => { e.preventDefault(); moveNoButton(); }}>
+                      <span className="w-full flex items-center justify-center gap-2 text-white/70 font-bold text-lg md:text-2xl">
+                        NGGAK 💔
+                      </span>
                     </HexagonButton>
                   </div>
                 </div>
