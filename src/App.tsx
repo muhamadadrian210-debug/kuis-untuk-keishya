@@ -78,6 +78,7 @@ function App() {
   const [currentInput, setCurrentInput] = useState("");
   const [answers, setAnswers] = useState<string[]>([]);
   const [showError, setShowError] = useState(false);
+  const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
   const moveNoButton = () => {
     const x = Math.random() * 200 - 100;
@@ -270,24 +271,34 @@ function App() {
               <div className="w-full flex flex-col items-center">
                 <Heart className="text-pink-500 fill-pink-500/20 mb-8 animate-pulse drop-shadow-[0_0_15px_rgba(236,72,153,0.6)]" size={64} />
                 
-                <div className="w-full bg-gradient-to-r from-pink-600 via-pink-400 to-pink-600 p-[2px] mb-12 shadow-[0_0_30px_rgba(236,72,153,0.4)]" style={{ clipPath: 'polygon(2rem 0%, calc(100% - 2rem) 0%, 100% 50%, calc(100% - 2rem) 100%, 2rem 100%, 0% 50%)' }}>
+                <div className="w-full bg-gradient-to-r from-pink-600 via-pink-400 to-pink-600 p-[2px] mb-8 shadow-[0_0_30px_rgba(236,72,153,0.4)]" style={{ clipPath: 'polygon(2rem 0%, calc(100% - 2rem) 0%, 100% 50%, calc(100% - 2rem) 100%, 2rem 100%, 0% 50%)' }}>
                   <div className="w-full bg-[#020513] text-center px-6 py-10 flex flex-col items-center justify-center relative overflow-hidden" style={{ clipPath: 'polygon(calc(2rem - 1px) 0%, calc(100% - calc(2rem - 1px)) 0%, 100% 50%, calc(100% - calc(2rem - 1px)) 100%, calc(2rem - 1px) 100%, 0% 50%)' }}>
                     <h1 className="text-2xl md:text-4xl font-bold text-white mb-4 leading-tight">Will you be my girlfriend?</h1>
                     <p className="text-pink-200">Iaan beneran sayang banget sama Keishya. Mau kan?</p>
                   </div>
                 </div>
                 
-                {/* Invisible YouTube Player for background music */}
-                <iframe 
-                  width="0" 
-                  height="0" 
-                  src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&loop=1&playlist=OT5msu-dap8" 
-                  title="Background Music" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                  className="hidden"
-                ></iframe>
+                <button 
+                  onClick={() => setIsPlayingMusic(true)}
+                  className={`mb-8 flex items-center gap-2 px-6 py-2 rounded-full border-2 border-pink-500 text-pink-400 hover:bg-pink-500/20 transition-colors ${isPlayingMusic ? 'hidden' : ''}`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  Putar Lagu Romantis 🎵
+                </button>
+                
+                {/* Invisible YouTube Player for background music, starts at chorus (65s) */}
+                {isPlayingMusic && (
+                  <iframe 
+                    width="0" 
+                    height="0" 
+                    src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=65" 
+                    title="Background Music" 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen
+                    className="hidden"
+                  ></iframe>
+                )}
                 
                 <div className="flex justify-center gap-4 w-full px-4 relative h-32 md:h-20">
                   <div className="w-1/2 md:w-64 relative z-20">
