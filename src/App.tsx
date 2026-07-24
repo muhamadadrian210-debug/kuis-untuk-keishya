@@ -170,7 +170,7 @@ function App() {
     });
     text += "Aku MAU jadi pacar kamu! Tunggu apa lagi? Buruan bales chat ini! ❤️";
     
-    const whatsappUrl = `https://wa.me/6281511210488?text=${encodeURIComponent(text)}`;
+    const whatsappUrl = `https://wa.me/6281338219957?text=${encodeURIComponent(text)}`;
     window.open(whatsappUrl, '_blank');
   };
 
@@ -334,16 +334,16 @@ function App() {
                   {photos.map((src, i) => {
                     // Predefined positions to frame the center
                     const positions = [
-                      { left: '2%', top: '5%', rotate: -15 },
-                      { right: '2%', top: '8%', rotate: 12 },
-                      { left: '5%', bottom: '5%', rotate: -10 },
-                      { right: '5%', bottom: '8%', rotate: 15 },
-                      { left: '-2%', top: '40%', rotate: -5 },
-                      { right: '-2%', top: '45%', rotate: 8 },
-                      { left: '25%', top: '-2%', rotate: -12 },
-                      { right: '25%', top: '-1%', rotate: 14 },
-                      { left: '20%', bottom: '0%', rotate: 10 },
-                      { right: '20%', bottom: '2%', rotate: -8 },
+                      { left: '-2%', top: '2%', rotate: -15 },
+                      { right: '-2%', top: '5%', rotate: 12 },
+                      { left: '-2%', bottom: '2%', rotate: -10 },
+                      { right: '-2%', bottom: '5%', rotate: 15 },
+                      { left: '-8%', top: '35%', rotate: -5 },
+                      { right: '-8%', top: '40%', rotate: 8 },
+                      { left: '5%', top: '-5%', rotate: -12 },
+                      { right: '5%', top: '-3%', rotate: 14 },
+                      { left: '5%', bottom: '-2%', rotate: 10 },
+                      { right: '5%', bottom: '-2%', rotate: -8 },
                     ];
                     
                     const pos = positions[i % positions.length];
@@ -486,7 +486,7 @@ function App() {
               
               <HexagonButton onClick={() => {
                 const message = `Iaan, aku butuh waktu buat mikir dulu ya... Kasih aku waktu sampai tanggal ${waitingDateStr}. Nanti aku kasih jawaban pastinya.`;
-                const whatsappUrl = `https://wa.me/6281511210488?text=${encodeURIComponent(message)}`;
+                const whatsappUrl = `https://wa.me/6281338219957?text=${encodeURIComponent(message)}`;
                 window.open(whatsappUrl, '_blank');
               }} className="w-full">
                 <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-base md:text-lg">
