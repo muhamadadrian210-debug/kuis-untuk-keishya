@@ -123,6 +123,18 @@ function App() {
     event.target.playVideo();
   };
 
+  const handleReset = () => {
+    setStep(questions.length + 1);
+    setShowConfetti(false);
+    setIsPlayingMusic(false);
+    setIsSongFinished(false);
+    setCurrentLyricIndex(-1);
+    setShowTimeModal(false);
+    if (player && typeof player.pauseVideo === 'function') {
+      player.pauseVideo();
+    }
+  };
+
   useEffect(() => {
     if (!player || !isPlayingMusic) return;
     
