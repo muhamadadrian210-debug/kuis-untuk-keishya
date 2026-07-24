@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
+
+const photos = Array.from({ length: 10 }, (_, i) => `/photos/${i + 1}.png`);
 
 const questions = [
   {
@@ -253,20 +255,48 @@ function App() {
             key="confession"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="w-full max-w-2xl z-10 flex flex-col items-center"
+            className="w-full max-w-2xl z-10 flex flex-col items-center relative"
           >
             {showConfetti ? (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center">
-                <Heart className="mx-auto text-pink-500 fill-pink-500 mb-6 drop-shadow-[0_0_30px_rgba(236,72,153,0.8)]" size={100} />
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
-                <p className="text-blue-200 text-xl mb-8">You are officially mine now, Keishya.</p>
-                
-                <HexagonButton onClick={handleSendToWhatsApp} className="w-72 mx-auto">
-                  <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-lg">
-                    KIRIM JAWABAN KE IAAN <Send size={18}/>
-                  </span>
-                </HexagonButton>
-              </motion.div>
+              <>
+                {/* Flower Bouquet Photos Animation */}
+                <div className="absolute inset-0 pointer-events-none flex items-center justify-center -z-10">
+                  {photos.map((src, i) => {
+                    const angle = (i / photos.length) * 360;
+                    const distance = 160; // Spread radius
+                    const rotate = angle + 90;
+                    
+                    return (
+                      <motion.img 
+                        key={i}
+                        src={src}
+                        initial={{ scale: 0, opacity: 0, x: 0, y: 0, rotate: 0 }}
+                        animate={{ 
+                          scale: 1, 
+                          opacity: 1, 
+                          x: Math.cos(angle * Math.PI / 180) * distance, 
+                          y: Math.sin(angle * Math.PI / 180) * distance,
+                          rotate: rotate 
+                        }}
+                        transition={{ duration: 1.5, delay: i * 0.15, type: "spring", bounce: 0.4 }}
+                        className="absolute w-28 h-40 md:w-36 md:h-48 object-cover rounded-xl border-4 border-white shadow-[0_0_20px_rgba(236,72,153,0.5)]"
+                      />
+                    );
+                  })}
+                </div>
+
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center bg-black/60 p-8 rounded-3xl backdrop-blur-md border border-pink-500/30">
+                  <Heart className="mx-auto text-pink-500 fill-pink-500 mb-6 drop-shadow-[0_0_30px_rgba(236,72,153,0.8)]" size={100} />
+                  <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
+                  <p className="text-blue-200 text-xl mb-8">You are officially mine now, Keishya.</p>
+                  
+                  <HexagonButton onClick={handleSendToWhatsApp} className="w-72 mx-auto">
+                    <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-lg pointer-events-auto">
+                      KIRIM JAWABAN KE IAAN <Send size={18}/>
+                    </span>
+                  </HexagonButton>
+                </motion.div>
+              </>
             ) : (
               <div className="w-full flex flex-col items-center">
                 <Heart className="text-pink-500 fill-pink-500/20 mb-8 animate-pulse drop-shadow-[0_0_15px_rgba(236,72,153,0.6)]" size={64} />
