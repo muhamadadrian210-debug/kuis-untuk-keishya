@@ -6,17 +6,32 @@ const questions = [
   {
     q: "Siapa cowok yang lagi dekat sama kamu sekarang? (Ayo jujur!)",
     options: ["Reza Rahadian", "Muhamad Adrian", "Jefri Nichol", "Angga Yunanda"],
-    correctIndex: 1
+    correctIndex: 1,
+    waMessage: "Halo Iaan ganteng, bantuin jawab kuis dong! Siapa sih cowok yang lagi deket sama aku? 🤔"
   },
   {
     q: "Makanan yang paling sering bikin kita bingung pas mau jalan?",
     options: ["Terserah", "Bebas", "Apa Aja", "Semua Benar"],
-    correctIndex: 3
+    correctIndex: 3,
+    waMessage: "Iaan, ini makanan apa sih yang selalu bikin kita berantem pas mau jalan? Help dong! 🍟"
+  },
+  {
+    q: "Apa hal yang paling Iaan suka dari Keishya?",
+    options: ["Senyum manisnya", "Bawelnya yang ngangenin", "Pipinnya yang cubitable", "Semua Benar"],
+    correctIndex: 3,
+    waMessage: "Iaan! Jawab jujur, kamu paling suka bagian apa dari aku? Biar bener nih kuisnya! 😳"
+  },
+  {
+    q: "Kalau Iaan lagi kangen banget sama Keishya, biasanya dia ngapain?",
+    options: ["Nangis di pojokan kamar", "Cuma bisa galau nungguin chat", "Liatin foto kamu sambil senyum sendiri", "Semua Benar"],
+    correctIndex: 3,
+    waMessage: "Bey, kalau kamu lagi kangen aku biasanya ngapain sih? Liatin foto aku ya? Ngaku! 🤭"
   },
   {
     q: "Siapa yang paling sayang banget sama Keishya?",
     options: ["Iaan", "Iaan banget", "Iaan selamanya", "Semua Benar"],
-    correctIndex: 3
+    correctIndex: 3,
+    waMessage: "Pertanyaan terakhir nih! Siapa yang paling sayang sama aku di dunia ini? Pasti kamu kan? ❤️"
   }
 ];
 
@@ -135,10 +150,24 @@ function App() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.1 }}
-            className="w-full max-w-4xl z-10 flex flex-col items-center"
+            className="w-full max-w-4xl z-10 flex flex-col items-center relative"
           >
+            {/* Lifeline: Phone a Friend */}
+            <div className="absolute -top-16 right-0 md:-top-20 z-20">
+              <button 
+                onClick={() => window.open(`https://wa.me/6281338219957?text=${encodeURIComponent(questions[step].waMessage)}`, '_blank')}
+                className="flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 border-2 border-yellow-500 text-yellow-400 font-bold py-2 px-4 rounded-full shadow-[0_0_15px_rgba(250,204,21,0.3)] transition-all active:scale-95 group"
+              >
+                <div className="bg-yellow-500 text-slate-900 p-1.5 rounded-full group-hover:animate-bounce">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <span className="hidden sm:inline">Phone a Friend</span>
+                <span className="sm:hidden">Bantuan</span>
+              </button>
+            </div>
+
             {/* Question Display */}
-            <div className="w-full bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 p-[2px] mb-12 shadow-[0_0_30px_rgba(250,204,21,0.2)]" style={{ clipPath: 'polygon(2rem 0%, calc(100% - 2rem) 0%, 100% 50%, calc(100% - 2rem) 100%, 2rem 100%, 0% 50%)' }}>
+            <div className="w-full bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 p-[2px] mb-12 shadow-[0_0_30px_rgba(250,204,21,0.2)] mt-8" style={{ clipPath: 'polygon(2rem 0%, calc(100% - 2rem) 0%, 100% 50%, calc(100% - 2rem) 100%, 2rem 100%, 0% 50%)' }}>
               <div className="w-full bg-[#020513] text-center px-12 py-8 min-h-[120px] flex items-center justify-center relative overflow-hidden" style={{ clipPath: 'polygon(calc(2rem - 1px) 0%, calc(100% - calc(2rem - 1px)) 0%, 100% 50%, calc(100% - calc(2rem - 1px)) 100%, calc(2rem - 1px) 100%, 0% 50%)' }}>
                 <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
                 <h2 className="text-xl md:text-3xl font-bold text-white leading-relaxed z-10">
