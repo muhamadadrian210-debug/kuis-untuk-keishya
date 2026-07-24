@@ -5,23 +5,23 @@ import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
 const questions = [
   {
     q: "Siapa cowok yang lagi dekat sama kamu sekarang? (Ayo jujur!)",
-    waMessage: "Halo Iaan ganteng, bantuin jawab kuis dong! Siapa sih cowok yang lagi deket sama aku? 🤔"
+    waMessage: "Halo Iaan ganteng, bantuin jawab kuis dong! Siapa sih cowok yang lagi deket sama aku?"
   },
   {
     q: "Makanan yang paling sering bikin kita bingung pas mau jalan?",
-    waMessage: "Iaan, ini makanan apa sih yang selalu bikin kita berantem pas mau jalan? Help dong! 🍟"
+    waMessage: "Iaan, ini makanan apa sih yang selalu bikin kita berantem pas mau jalan? Help dong!"
   },
   {
     q: "Apa hal yang paling aku suka dari kamu?",
-    waMessage: "Iaan! Jawab jujur, kamu paling suka bagian apa dari aku? Biar bener nih kuisnya! 😳"
+    waMessage: "Iaan! Jawab jujur, kamu paling suka bagian apa dari aku? Biar bener nih kuisnya!"
   },
   {
     q: "Kalau aku lagi kangen banget sama kamu, biasanya aku ngapain coba?",
-    waMessage: "Bey, kalau kamu lagi kangen aku biasanya ngapain sih? Buka tutup WA nungguin aku online ya? Ngaku! 🤭"
+    waMessage: "Bey, kalau kamu lagi kangen aku biasanya ngapain sih? Buka tutup WA nungguin aku online ya? Ngaku!"
   },
   {
     q: "Siapa cowok yang paling sayang bangeeet sama kamu?",
-    waMessage: "Pertanyaan terakhir nih! Siapa yang paling sayang sama aku di dunia ini? Pasti kamu kan? ❤️"
+    waMessage: "Pertanyaan terakhir nih! Siapa yang paling sayang sama aku di dunia ini? Pasti kamu kan?"
   }
 ];
 
@@ -118,7 +118,7 @@ function App() {
     answers.forEach((ans, i) => {
       text += `*Pertanyaan ${i+1}:* ${questions[i].q}\n*Jawaban:* ${ans}\n\n`;
     });
-    text += "Tunggu apa lagi? Buruan bales chat ini! 😘";
+    text += "Tunggu apa lagi? Buruan bales chat ini!";
     
     window.open(`https://wa.me/6281338219957?text=${encodeURIComponent(text)}`, '_blank');
   };
