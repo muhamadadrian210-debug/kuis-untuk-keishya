@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
 
@@ -78,17 +78,6 @@ function App() {
   const [currentInput, setCurrentInput] = useState("");
   const [answers, setAnswers] = useState<string[]>([]);
   const [showError, setShowError] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    if (step === questions.length + 1) {
-      if (!audioRef.current) {
-        audioRef.current = new Audio('/shape-of-my-heart.mp3');
-        audioRef.current.loop = true;
-      }
-      audioRef.current.play().catch(e => console.log("Audio autoplay prevented", e));
-    }
-  }, [step]);
 
   const moveNoButton = () => {
     const x = Math.random() * 200 - 100;
@@ -287,6 +276,18 @@ function App() {
                     <p className="text-pink-200">Iaan beneran sayang banget sama Keishya. Mau kan?</p>
                   </div>
                 </div>
+                
+                {/* Invisible YouTube Player for background music */}
+                <iframe 
+                  width="0" 
+                  height="0" 
+                  src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&loop=1&playlist=OT5msu-dap8" 
+                  title="Background Music" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                  className="hidden"
+                ></iframe>
                 
                 <div className="flex justify-center gap-4 w-full px-4 relative h-32 md:h-20">
                   <div className="w-1/2 md:w-64 relative z-20">
