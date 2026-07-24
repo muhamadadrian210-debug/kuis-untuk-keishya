@@ -92,6 +92,7 @@ function App() {
   const [step, setStep] = useState(-1);
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
   const [showConfetti, setShowConfetti] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   
   // Essay state
   const [currentInput, setCurrentInput] = useState("");
@@ -346,7 +347,8 @@ function App() {
                           ...pos,
                           transform: `rotate(${pos.rotate}deg)`
                         }}
-                        className="absolute w-24 h-32 md:w-40 md:h-56 object-cover rounded-xl border-4 border-white/80 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:opacity-100 hover:z-50 transition-opacity"
+                        onClick={() => setSelectedPhoto(src)}
+                        className="cursor-pointer absolute w-24 h-32 md:w-40 md:h-56 object-cover rounded-xl border-4 border-white/80 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:opacity-100 hover:z-50 transition-opacity"
                       />
                     );
                   })}
@@ -436,6 +438,38 @@ function App() {
                 </div>
               </div>
             )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {selectedPhoto && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedPhoto(null)}
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          >
+            <motion.div
+              initial={{ scale: 0.5, rotate: -10, opacity: 0 }}
+              animate={{ scale: 1, rotate: Math.random() * 6 - 3, opacity: 1 }}
+              exit={{ scale: 0.5, rotate: 10, opacity: 0 }}
+              transition={{ type: "spring", damping: 15 }}
+              onClick={(e: any) => e.stopPropagation()}
+              className="bg-white p-4 pb-16 md:p-6 md:pb-24 rounded-sm shadow-2xl relative max-w-sm w-full cursor-default"
+            >
+              <img src={selectedPhoto} alt="Polaroid" className="w-full h-auto object-cover border border-gray-200" />
+              <div className="absolute bottom-4 md:bottom-8 left-0 right-0 text-center">
+                <span className="text-gray-800 font-handwriting text-xl md:text-3xl">For Keishya ❤️</span>
+              </div>
+              <button 
+                onClick={() => setSelectedPhoto(null)}
+                className="absolute -top-4 -right-4 w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold shadow-lg hover:bg-pink-600 transition-colors"
+              >
+                ✕
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
