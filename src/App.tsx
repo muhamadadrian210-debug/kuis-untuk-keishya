@@ -96,6 +96,7 @@ function App() {
   
   const [showTimeModal, setShowTimeModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const [waitingDateStr, setWaitingDateStr] = useState("");
   
   const today = new Date().toISOString().split('T')[0];
   const maxDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
@@ -180,10 +181,9 @@ function App() {
     const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
     const formattedDate = dateObj.toLocaleDateString('id-ID', options);
     
-    const message = `Iaan, aku butuh waktu buat mikir dulu ya... Kasih aku waktu sampai tanggal ${formattedDate}. Nanti aku kasih jawaban pastinya.`;
-    const whatsappUrl = `https://wa.me/6281511210488?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    setWaitingDateStr(formattedDate);
     setShowTimeModal(false);
+    setStep(100); // Trigger the waiting step view
   };
 
   return (
@@ -469,6 +469,33 @@ function App() {
             )}
           </motion.div>
         )}
+
+        {step === 100 && (
+          <motion.div 
+            key="waiting"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="w-full max-w-md z-10 flex flex-col items-center relative mt-20"
+          >
+            <div className="text-center bg-black/60 p-8 rounded-3xl backdrop-blur-md border border-pink-500/30 z-20 relative shadow-[0_0_40px_rgba(236,72,153,0.2)]">
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">Take your time... 🥺</h1>
+              <p className="text-pink-200 text-lg mb-4 leading-relaxed">
+                Oke Keishya, Iaan bakal sabar nungguin jawaban kamu sampai tanggal <b className="text-white bg-pink-500/20 px-2 py-1 rounded">{waitingDateStr}</b>.
+              </p>
+              <p className="text-pink-300/80 text-sm mb-8">Jangan lupa kabarin Iaan ya nanti!</p>
+              
+              <HexagonButton onClick={() => {
+                const message = `Iaan, aku butuh waktu buat mikir dulu ya... Kasih aku waktu sampai tanggal ${waitingDateStr}. Nanti aku kasih jawaban pastinya.`;
+                const whatsappUrl = `https://wa.me/6281511210488?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+              }} className="w-full">
+                <span className="w-full flex items-center justify-center gap-2 text-white font-bold text-base md:text-lg">
+                  KIRIM PESAN KE IAAN <Send size={18}/>
+                </span>
+              </HexagonButton>
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       <AnimatePresence>
@@ -486,7 +513,12 @@ function App() {
               className="bg-[#0f172a] border border-pink-500/30 p-6 md:p-8 rounded-2xl shadow-[0_0_40px_rgba(236,72,153,0.3)] max-w-sm w-full relative"
             >
               <h2 className="text-2xl font-bold text-white mb-2">Butuh waktu?</h2>
-              <p className="text-pink-200 mb-6 text-sm">Nggak apa-apa kok. Kasih tau Iaan ya kamu butuh waktu sampai kapan (Maksimal 2 minggu yaa 🥺)</p>
+              <p className="text-pink-200 mb-4 text-sm">Nggak apa-apa kok. Kasih tau Iaan ya kamu butuh waktu sampai kapan (Maksimal 2 minggu yaa 🥺)</p>
+              
+              <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-lg p-3 mb-6 text-left">
+                <p className="text-yellow-400 text-xs md:text-sm font-bold mb-1">⚠️ Tidak Direkomendasikan!</p>
+                <p className="text-yellow-200/80 text-xs">Karena Iaan udah nggak sabar pengen bahagiain Keishya tiap hari! Tapi kalau emang butuh waktu, Iaan bakal sabar nungguin kok.</p>
+              </div>
               
               <input 
                 type="date" 
