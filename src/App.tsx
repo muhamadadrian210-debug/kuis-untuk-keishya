@@ -407,7 +407,7 @@ function App() {
                   
                   <div 
                     className="w-1/2 md:w-64 absolute z-30 transition-all duration-200"
-                    style={{ right: '1rem', ...noButtonStyle }}
+                    style={{ right: '1rem', transform: `translate(${noPosition.x}px, ${noPosition.y}px)` }}
                     onMouseEnter={moveNoButton}
                     onTouchStart={(e) => { e.preventDefault(); moveNoButton(); }}
                     onClick={moveNoButton}
