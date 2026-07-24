@@ -1,4 +1,7 @@
-import YouTube, { YouTubeEvent } from 'react-youtube';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Trophy, Sparkles, Send } from 'lucide-react';
+import YouTube, { type YouTubeEvent } from 'react-youtube';
 
 const photos = Array.from({ length: 10 }, (_, i) => `/photos/${i + 1}.png`);
 
