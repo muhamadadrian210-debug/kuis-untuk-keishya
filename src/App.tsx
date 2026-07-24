@@ -8,8 +8,8 @@ const questions = [
     waMessage: "Halo Iaan ganteng, bantuin jawab kuis dong! Siapa sih cowok yang lagi deket sama aku?"
   },
   {
-    q: "Makanan yang paling sering bikin kita bingung pas mau jalan?",
-    waMessage: "Iaan, ini makanan apa sih yang selalu bikin kita berantem pas mau jalan? Help dong!"
+    q: "Tempat mana yang paling sering jadi bahan perdebatan kita kalau lagi ngebahas mau jalan?",
+    waMessage: "Iaan, kita kan belum pernah jalan berdua, tapi udah sering debat mau kemana. Emang tempat apa sih yang sering kita debatin?"
   },
   {
     q: "Apa hal yang paling aku suka dari kamu?",
