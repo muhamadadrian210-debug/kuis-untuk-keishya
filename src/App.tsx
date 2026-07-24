@@ -23,9 +23,9 @@ const questions = [
   },
   {
     q: "Kalau Iaan lagi kangen banget sama Keishya, biasanya dia ngapain?",
-    options: ["Nangis di pojokan kamar", "Cuma bisa galau nungguin chat", "Liatin foto kamu sambil senyum sendiri", "Semua Benar"],
+    options: ["Nangis di pojokan kamar", "Cari-cari alasan buat nge-chat", "Buka tutup WA nungguin online", "Semua Benar"],
     correctIndex: 3,
-    waMessage: "Bey, kalau kamu lagi kangen aku biasanya ngapain sih? Liatin foto aku ya? Ngaku! 🤭"
+    waMessage: "Bey, kalau kamu lagi kangen aku biasanya ngapain sih? Buka tutup WA nungguin aku online ya? Ngaku! 🤭"
   },
   {
     q: "Siapa yang paling sayang banget sama Keishya?",
