@@ -309,7 +309,7 @@ function App() {
             {showConfetti ? (
               <>
                 {/* Scattered Photos Animation */}
-                <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
                   {photos.map((src, i) => {
                     // Predefined positions to frame the center
                     const positions = [
