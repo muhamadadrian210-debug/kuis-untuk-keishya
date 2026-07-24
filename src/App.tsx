@@ -295,10 +295,24 @@ function App() {
             animate={{ opacity: 1 }}
             className="w-full max-w-2xl z-10 flex flex-col items-center relative"
           >
+            {/* Invisible YouTube Player - Moved outside ternary to prevent unmounting */}
+            {isPlayingMusic && (
+              <iframe 
+                width="0" 
+                height="0" 
+                src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=139" 
+                title="Background Music" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+                className="hidden"
+              ></iframe>
+            )}
+
             {showConfetti ? (
               <>
                 {/* Flower Bouquet Photos Animation */}
-                <div className="absolute inset-0 pointer-events-none flex items-center justify-center -z-10">
+                <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
                   {photos.map((src, i) => {
                     const angle = (i / photos.length) * 360;
                     const distance = 160; // Spread radius
@@ -323,7 +337,7 @@ function App() {
                   })}
                 </div>
 
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center bg-black/60 p-8 rounded-3xl backdrop-blur-md border border-pink-500/30">
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center bg-black/60 p-8 rounded-3xl backdrop-blur-md border border-pink-500/30 z-20 relative mt-20 md:mt-10">
                   <Heart className="mx-auto text-pink-500 fill-pink-500 mb-6 drop-shadow-[0_0_30px_rgba(236,72,153,0.8)]" size={100} />
                   <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
                   <p className="text-blue-200 text-xl mb-8">You are officially mine now, Keishya.</p>
@@ -383,20 +397,6 @@ function App() {
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                   Putar Lagu Romantis 🎵
                 </button>
-                
-                {/* Invisible YouTube Player for background music, starts at chorus (65s) */}
-                {isPlayingMusic && (
-                  <iframe 
-                    width="0" 
-                    height="0" 
-                    src="https://www.youtube.com/embed/OT5msu-dap8?autoplay=1&start=152" 
-                    title="Background Music" 
-                    frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowFullScreen
-                    className="hidden"
-                  ></iframe>
-                )}
                 
                 <div className="flex justify-center gap-4 w-full px-4 relative h-32 md:h-20">
                   <div className="w-1/2 md:w-64 relative z-20">
