@@ -311,27 +311,45 @@ function App() {
 
             {showConfetti ? (
               <>
-                {/* Flower Bouquet Photos Animation */}
-                <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
+                {/* Scattered Photos Animation */}
+                <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
                   {photos.map((src, i) => {
-                    const angle = (i / photos.length) * 360;
-                    const distance = typeof window !== 'undefined' && window.innerWidth < 768 ? 110 : 180; // Spread radius
-                    const rotate = angle + 90;
+                    // Predefined positions to frame the center
+                    const positions = [
+                      { left: '2%', top: '5%', rotate: -15 },
+                      { right: '2%', top: '8%', rotate: 12 },
+                      { left: '5%', bottom: '5%', rotate: -10 },
+                      { right: '5%', bottom: '8%', rotate: 15 },
+                      { left: '-2%', top: '40%', rotate: -5 },
+                      { right: '-2%', top: '45%', rotate: 8 },
+                      { left: '25%', top: '-2%', rotate: -12 },
+                      { right: '25%', top: '-1%', rotate: 14 },
+                      { left: '20%', bottom: '0%', rotate: 10 },
+                      { right: '20%', bottom: '2%', rotate: -8 },
+                    ];
+                    
+                    const pos = positions[i % positions.length];
                     
                     return (
-                      <motion.img 
+                      <motion.img
                         key={i}
                         src={src}
-                        initial={{ scale: 0, opacity: 0, x: 0, y: 0, rotate: 0 }}
+                        initial={{ scale: 0, opacity: 0 }}
                         animate={{ 
                           scale: 1, 
-                          opacity: 1, 
-                          x: Math.cos(angle * Math.PI / 180) * distance, 
-                          y: Math.sin(angle * Math.PI / 180) * distance,
-                          rotate: rotate 
+                          opacity: 0.8,
                         }}
-                        transition={{ duration: 1.5, delay: i * 0.15, type: "spring", bounce: 0.4 }}
-                        className="absolute w-28 h-40 md:w-36 md:h-48 object-cover rounded-xl border-4 border-white shadow-[0_0_20px_rgba(236,72,153,0.5)]"
+                        transition={{ 
+                          duration: 0.8,
+                          delay: i * 0.1,
+                          type: "spring",
+                          bounce: 0.5
+                        }}
+                        style={{
+                          ...pos,
+                          transform: `rotate(${pos.rotate}deg)`
+                        }}
+                        className="absolute w-24 h-32 md:w-40 md:h-56 object-cover rounded-xl border-4 border-white/80 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:opacity-100 hover:z-50 transition-opacity"
                       />
                     );
                   })}
