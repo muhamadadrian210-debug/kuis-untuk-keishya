@@ -406,7 +406,15 @@ function App() {
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-center bg-black/60 p-8 rounded-3xl backdrop-blur-md border border-pink-500/30 z-20 relative mt-20 md:mt-10">
                   <Heart className="mx-auto text-pink-500 fill-pink-500 mb-6 drop-shadow-[0_0_30px_rgba(236,72,153,0.8)]" size={100} />
                   <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Yayyy! I Love You! ❤️</h1>
-                  <p className="text-blue-200 text-xl mb-8">You are officially mine now, Keishya.</p>
+                  <p className="text-blue-200 text-xl mb-4">You are officially mine now, Keishya.</p>
+                  
+                  <motion.p 
+                    animate={{ scale: [1, 1.05, 1], opacity: [0.7, 1, 0.7] }} 
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="text-pink-300 font-medium mb-8 text-sm md:text-base border border-pink-500/30 rounded-full px-4 py-1.5 inline-block bg-pink-500/10"
+                  >
+                    ✨ Coba klik foto-foto kita di pinggir layar deh! 📸 ✨
+                  </motion.p>
                   
                   {isSongFinished ? (
                     <HexagonButton onClick={handleSendToWhatsApp} className="w-72 mx-auto">
