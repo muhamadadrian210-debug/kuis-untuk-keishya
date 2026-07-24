@@ -12,16 +12,16 @@ const questions = [
     waMessage: "Iaan, kita kan belum pernah jalan berdua, tapi udah sering debat mau kemana. Emang tempat apa sih yang sering kita debatin?"
   },
   {
-    q: "Apa hal yang paling aku suka dari kamu?",
-    waMessage: "Iaan! Jawab jujur, kamu paling suka bagian apa dari aku? Biar bener nih kuisnya!"
+    q: "Jujur, apa hal yang paling kamu suka dari aku (Iaan)?",
+    waMessage: "Iaan, kuisnya nanya bagian apa yang paling aku suka dari kamu. Aku bingung mau jawab apa, kamu terlalu sempurna sih wkwk. Bantuin dong!"
   },
   {
-    q: "Kalau aku lagi kangen banget sama kamu, biasanya aku ngapain coba?",
-    waMessage: "Bey, kalau kamu lagi kangen aku biasanya ngapain sih? Buka tutup WA nungguin aku online ya? Ngaku!"
+    q: "Kalau kamu lagi kangen banget sama aku, biasanya kamu ngapain coba ngaku?",
+    waMessage: "Iaan, kalau aku kangen kamu aku kan cuma bisa buka tutup WA nungguin kamu online... Eh kok kuisnya tau sih? Bantuin jawab dong!"
   },
   {
-    q: "Siapa cowok yang paling sayang bangeeet sama kamu?",
-    waMessage: "Pertanyaan terakhir nih! Siapa yang paling sayang sama aku di dunia ini? Pasti kamu kan?"
+    q: "Siapa cowok yang bakal selalu sayang dan jagain kamu selamanya?",
+    waMessage: "Pertanyaan terakhir nih! Cowok yang bakal selalu sayang sama aku itu... pasti kamu kan Iaan? ❤️"
   }
 ];
 
