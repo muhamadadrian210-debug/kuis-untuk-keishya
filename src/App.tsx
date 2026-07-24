@@ -6,7 +6,7 @@ import YouTube, { type YouTubeEvent } from 'react-youtube';
 const photos = Array.from({ length: 10 }, (_, i) => `/photos/${i + 1}.png`);
 
 const lyrics = [
-  { text: "I'm here with my confession", translation: "Aku di sini dengan pengakuanku", start: 132.5, end: 136 },
+  { text: "I'm here with my confession", translation: "Aku di sini dengan pengakuanku", start: 133, end: 136 },
   { text: "Got nothing to hide no more", translation: "Tidak ada lagi yang disembunyikan", start: 136, end: 139 },
   { text: "I don't know where to start", translation: "Aku tidak tahu harus mulai dari mana", start: 139, end: 143 },
   { text: "But to show you the shape of my heart", translation: "Selain menunjukkan bentuk hatiku", start: 143, end: 149 },
@@ -300,7 +300,7 @@ function App() {
               <div className="hidden">
                 <YouTube 
                   videoId="OT5msu-dap8" 
-                  opts={{ playerVars: { autoplay: 1, start: 132, playsinline: 1 } }} 
+                  opts={{ playerVars: { autoplay: 1, start: 133, playsinline: 1 } }} 
                   onReady={onReady} 
                 />
               </div>
